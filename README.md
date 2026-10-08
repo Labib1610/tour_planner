@@ -6,43 +6,46 @@ A simple trip planner for Bangladesh, built for use on your phone. It covers Cha
 
 **👉 https://labib1610.github.io/tour_planner/**
 
-Open the link in Chrome on your phone and allow location when it asks.
-To keep it like an app: Chrome menu **⋮ → Add to Home screen**.
+Open the link in Chrome or Safari on your phone and allow location when it asks.
+To keep it like an app: browser menu → **Add to Home screen**.
 
 ---
 
+## Two ways to use it
+
+**Trip account (recommended for groups)**
+Type a **trip name** and a **4-digit PIN**, then tap Open trip. The first time, the app asks to create it.
+Anyone who enters the same name and PIN on any phone sees and edits the same plan. Changes show up on the other phones within about 10 seconds.
+
+**Guest**
+Saved on this phone only. No name or PIN needed.
+
+You can switch any time in **Tools → Account**.
+
 ## What it does
 
-- **Nearest places.** About 300 tourist places, sorted by distance from where you are right now (live GPS). Filter by type (beach, hill, waterfall…) or division, or search by name.
-- **Place details.** Description, distance, estimated travel time, best season, entry fee and how long to spend there.
-- **Directions from my location.** Opens Google Maps with the route from your current position.
-- **Nearby from here.** Every place lists the 6 closest other places, so you can chain stops.
-- **My list.** Places you want to visit, sorted by distance.
-- **Visited.** Tick off places as you go and track your progress.
-- **Day-by-day itinerary.** Add places to Day 1, Day 2… See the distance and time between stops, and open the whole day's route in Google Maps.
-- **Notes & photos.** For each place.
-- **Your own places.** Add any spot that's missing (Tools → New place).
-- **Packing checklist and emergency numbers.** Tap a number to call it.
+- **Nearest places.** About 350 tourist places, sorted by distance from your live location or from your hotel. Filter by type or division, or search.
+- **Place details.** Description, distance, travel time, best season, entry fee and how long to spend there.
+- **Directions from my location.** Opens Google Maps with the route from where you are.
+- **Itinerary.** Day 1, Day 2… each with a date, where you're staying, breakfast, lunch, dinner, transport and notes. Each entry can have a Google Maps link.
+- **Near your stay.** Add the hotel's location and the day shows the closest places to it. Explore can also sort every place by distance from the hotel.
+- **My list** and **Visited**, to track where you want to go and where you've been.
+- **Members.** Everyone on the tour, with phone, room or role.
+- **Notes & photos** for each place, **your own places**, a **packing checklist** and **emergency numbers**.
 - **Day / Night mode.**
 
-## Where your data is saved
+### Adding a hotel or restaurant location
 
-- Everything is saved **on your phone automatically**. There's no login, and each person has their own data.
-- **Backup:** Tools → Export backup downloads a file with everything, including photos. Import it on a new phone.
-- **Sync (optional):** keeps two or more phones showing the same plan. See below.
+In Google Maps, **long-press the spot**. The coordinates appear at the top (like `22.3268, 91.8105`). Copy them and paste them into the app.
+Full Google Maps links also work. Short share links (`maps.app.goo.gl/…`) open fine with the Map button, but the app can't read their location for nearby suggestions.
 
-## Sync between phones (free)
+---
 
-Sync is useful when you plan on one phone and travel with another, or when your tour group should see the same plan. Add a place to Day 2 on one phone and it shows up on the other.
+## One-time setup for trip accounts (site owner only)
 
-What syncs: my list, visited places, itinerary days, notes, packing list, contacts and custom places.
-What doesn't: photos (they stay on the phone that took them).
+Trip accounts save to your free Firebase database (no card needed).
 
-**One-time setup (about 5 minutes, free, no card):**
-
-1. Go to https://console.firebase.google.com, sign in, and **Create a project** (turn off Analytics).
-2. **Build → Realtime Database → Create database.** Choose Singapore and **Locked mode**.
-3. On the **Rules** tab, replace the text with the rules below and click **Publish**:
+1. In Firebase, check that **Realtime Database → Rules** is:
    ```json
    {
      "rules": {
@@ -52,11 +55,14 @@ What doesn't: photos (they stay on the phone that took them).
      }
    }
    ```
-4. On the **Data** tab, copy the database link (`https://…firebasedatabase.app`).
-5. In the app: **Tools → Sync between phones**, paste the link and tap **Turn on**.
-6. Tap **Share link** and open it on your other phone. Done.
+2. Copy the database link from the **Data** tab (`https://…firebasedatabase.app`).
+3. In this GitHub repo: **Add file → Create new file**. Name it `config.json` and paste in:
+   ```json
+   { "firebase": "https://YOUR-DATABASE-LINK.firebasedatabase.app" }
+   ```
+   Then click **Commit changes**.
 
-Keep the share link private. Anyone who has it can see and edit that plan.
+That's it. Every visitor's phone now uses that database for trip accounts.
 
 ## Update the app
 
@@ -64,6 +70,7 @@ Replace `index.html` in this repo (**Add file → Upload files → Commit**). Th
 
 ## Notes
 
+- A 4-digit PIN is easy to guess. Use a trip name that isn't obvious, and don't store anything private.
 - Distances are straight-line. Travel times are rough road estimates.
 - Entry fees and access rules change, especially for Saint Martin's, Bandarban's remote areas and the Sundarbans. Check locally before you go.
 - Emergency: **999** (police, fire, ambulance).
